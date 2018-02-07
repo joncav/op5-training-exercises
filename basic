@@ -1,0 +1,221 @@
+#### Prepare for exercises - install Virtual Box and OP5 Monitor VM ####
+
+Install VirtualBox for demo purposes: https://www.virtualbox.org/
+Download the latest OP5 Monitor Virtual Appliance here: https://www.op5.com/op5-monitor/download-library/
+After starting your Virtual Appliance, login to terminal with root:monitor
+For ease of use you should also consider using Putty or Terminal (mac) to ssh into the machine
+
+Instructions: https://kb.op5.com/display/HOWTOs/Install+and+Get+Started+with+op5+Monitor
+ 
+ 
+ 
+#### Getting comfortable with OP5 Monitor UI ####
+ 
+---- Do this 2-3 times to remember (host will show):
+Find the Advanced button for hosts / services configuration:
+1. Monitor Hosts > Host, ALL HOSTS, configure (wrench)
+ 
+2. Select "services for host", choose service (long dropdown box second row).
+(aka LONG BAR WITH NO TITLE)
+ 
+3. Look for the middle bar middle bar, advanced, propagate, copy etc. (you will use this!!)
+ 
+4. Submit changes - NOTE: "see changes in nacoma" (means "submit final save")
+ 
+5. Explore Manage > Configure "Save" (upper right), unsaved changes are indicated by yellow and a number
+ 
+3. Right-click host icons to see extended menu.
+ 
+ 
+Make changes to config item, submit and save
+1. Monitor Hosts > Host, configure, check_command_args
+----
+ 
+Remove columns from host list views in Dashboards
+- https://kb.op5.com/display/GUI/Customizing+listview+columns
+ 
+Exploring dashboards: https://kb.op5.com/display/DOC/Tactical+overview
+ 
+Add a Big number widget:
+Right side dashboard > Add widget > Select widget > Position widget
+ 
+Exploring filters: https://kb.op5.com/display/DOC/Filters
+ 
+Try yourself, experiment with filtering only a specific service with state 1 or 2.
+ 
+Save a filter:
+Monitor > Hosts | Services > filter (small icon upper right), save
+ 
+Find your filter:
+(for removing) Manage > Manage Filters
+(for using) Manage > Hosts | Services > Dropdown
+ 
+Use your filter to populate a widget on the dashboard:
+Big Numbers (click little gear in upper right, use your filter to populate)
+Try List View (click little gear in upper right, use your filter query to populate)
+ 
+Now within your listview remove some columns: https://kb.op5.com/display/GUI/Custom+columns+language+reference
+ 
+Try limiting your default listview columns:
+List columns: https://kb.op5.com/display/GUI/Listview+filter+columns
+ 
+ 
+ 
+#### Hosts and Service ####
+ 
+Monitor will be your go to for navigating to hosts, services, hostgroups or servicegroups
+ 
+Try finding the "monitor" server in hosts.
+ 
+Try finding the "updates" service under the "monitor" server.
+ 
+Try finding the "linux" hostgroup in hostgroups, which server is found there?
+ 
+How can you remove a service? (what must you do after removing?)
+ 
+ 
+ 
+#### Users & Permissions ####
+ 
+To introduce users let's first explore how permissions are defined.
+ 
+1. Create a group
+Manage > Configure > Local Users (create one, with the Default auth module and in admins group)
+ 
+2. Now let's create a Auth Group
+Manage > Configure > Local Users (create one, with the Default auth module and in admins group)
+ 
+3. Go back to Local Users and move them to your new group.
+ 
+*Remember Manage > Configure > Save*
+ 
+Test logging in as your users. Do you have access to the areas you allowed?
+ 
+4. Try limiting the menu for this new group
+ 
+Upper right mouse over your name > Click "My Account", next to Settings click > Edit user menu
+ 
+** DO NOT LIMIT YOUR ADMINS GROUP **
+ 
+5. Now create a special user with access only to specific hosts:
+ 
+https://kb.op5.com/display/HOWTOs/How+to+add+a+user+with+limited+visibility
+ 
+ 
+ 
+#### Performance Graphs ####
+ 
+Add a dummy service to graph:
+https://kb.op5.com/display/HOWTOs/Add+new+templates+to+op5+Monitor+performance+graphs
+ 
+ 
+ 
+#### Plugins & Commands ####
+Plugins make commands possible. Commands shorten what you must configure in the "check_commands" settings.
+ 
+1. Go to > Manage > Commands and find an existing command. Use the little search box to locate check_snmp or check_json
+2. Click the syntax help, you'll find that useful in a few places.
+3. You define arguments by $ARG1 $ARG2 and so on, but what does this mean?
+ 
+HINT: $ARG$ is the argument variable you will assign a value to within the check_command field (next step)
+ 
+Review the check_command for an existing check on the monitor server:
+ 
+1. Search upper right for monitor, click the wrench next to the service name (not host name).
+2. Show Advanced (for good practice)
+3. Find check_command_args section.
+4. Try adding a ! after the last item and then "test this check" what do you find?
+5. What does the ! mean?
+ 
+HINT:$ARG$ separates arguments
+ 
+Try adding an existing check_command to monitor:
+ 
+1. Manage > Hosts > select wrench next to hostname.
+2. Click link for services.
+3. Choose "check_dummy" from check command list.
+4. Submit changes.
+5. Update check_command_args with 0!0!0
+6. Run "Test this check", what happens?
+7. Change the first 0 to 1, test again, what happens?
+7. Change the first 1 to 2, test again, what happens?
+ 
+---- Adding your first plugin
+https://kb.op5.com/display/DOC/Adding+your+first+plugin+to+op5+Monitor
+ 
+---- Creating a plugin
+https://kb.op5.com/display/HOWTOs/How+to+write+your+own+plugin+to+op5+Monitor+or+Nagios
+ 
+Some ideas:
+ 
+Get and report on random number, https://api.random.org/json-rpc/1/
+Get some weather info, https://www.wunderground.com/weather/api/
+Get something within your domain and measure it.
+ 
+ 
+ 
+### Alerts to slack channel ###
+Ask to be added to the demo-slack channel for training (or create your own)
+
+1. Create your webhook in slack
+
+Name your app: name-op5-webhook
+From Development Slack Workspace select: jon-op5-demo (or your own)
+During setup "Post to" use "general"
+Please go to: https://kb.op5.com/display/HOWTOs/How+to+Integrate+OP5+with+Slack
+
+2. Create a service check within "Monitor"
+Name it "slack_test"
+Use "dummy_check" check_command which should be pre-installed
+For command_args: 0
+Set check interval to 1
+Set max_check_attempts to 1
+Turn off active_checks
+Click the "test" button to verify the status is "OK"
+Save your configuration (Submit changes at bottom of page, use upper right button "Save" to commit changes)
+
+3. Test notification
+For active checks you might use "Check Now", we will use Submit Passive Check to test
+To quickly get back to your service use upper right, hover over the question mark to get shortcut search ideas
+Search slack_test
+Click on the service Name
+From right menu Options > Actions > Submit Passive Check
+Choose "Critical" use the "Plugin output" to pass any message. Try: 0!You Name!Some message
+ 
+ 
+ 
+#### HTTP API, with examples ####
+ 
+See your API documentation at: https://your-op5-hostname/api
+ 
+Test each of these examples (Python, or use as examples in language of your choice):
+https://github.com/joncav/op5-api-examples/blob/master/hosts-services-manage.py
+ 
+Create a service for passive check results:
+ 
+1. Monitor > Hosts > Configure
+2. Select "services for host"
+3. Add name of service.
+4. Submit and save.
+ 
+Try this: https://kb.op5.com/display/HOWTOs/Submitting+status+updates+through+the+HTTP+API
+ 
+ 
+ 
+#### Event Handlers ####
+http://www.it-slav.net/blogs/2009/06/15/using-nagios-or-op5-monitor-eventhandler-to-start-a-service-that-has-stopped/
+ 
+Use this example, selecting a service that is running on your monitor server.
+ 
+ 
+ 
+#### Management Packs ####
+Review: Manage > Host Wizard
+ 
+Create your own management pack:
+https://kb.op5.com/display/HOWTOs/How+to+create+a+management+pack
+ 
+ 
+ 
+#### Setup load balancing - peer ####
+https://kb.op5.com/display/DOC/Load+balanced+monitoring
