@@ -14,21 +14,21 @@ Instructions: https://kb.op5.com/display/HOWTOs/Install+and+Get+Started+with+op5
 ---- Do this 2-3 times to remember (host will show):
 Find the Advanced button for hosts / services configuration:
 1. Monitor Hosts > Host, ALL HOSTS, configure (wrench)
- 
 2. Select "services for host", choose service (long dropdown box second row).
 (aka LONG BAR WITH NO TITLE)
- 
 3. Look for the middle bar middle bar, advanced, propagate, copy etc. (you will use this!!)
- 
 4. Submit changes - NOTE: "see changes in nacoma" (means "submit final save")
- 
 5. Explore Manage > Configure "Save" (upper right), unsaved changes are indicated by yellow and a number
- 
 3. Right-click host icons to see extended menu.
  
- 
-Make changes to config item, submit and save
-1. Monitor Hosts > Host, configure, check_command_args
+
+## Now use what you learned - Edit a service and save ##
+
+1. Monitor Hosts > Host, All Hosts, click "Monitor" from right, Options > Configure
+2. Click link "Services for host monitor"
+3. Select "Disk usage /" from dropdown and click GO
+4. Change the threshold from 80 to 70 and click Submit
+5. Click Save in upper right under your name, to finalize save (commit)
 ----
  
 Remove columns from host list views in Dashboards
